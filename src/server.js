@@ -1,9 +1,12 @@
 const express = require('express');
+const ejsLayouts = require('express-ejs-layouts');
 const connection = require('./database');
 const routes = require('./routes');
 
 const app = express();
+app.use(express.static('public'));
 app.set('view engine', 'ejs');
+app.use(ejsLayouts);
 app.set('views', 'src/views');
 app.use(routes);
 

@@ -1,18 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Meu Blog</title>
-  </head>
+<%- contentFor('body') %>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">Blog</a>
+      <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarsExampleDefault"
+          aria-controls="navbarsExampleDefault"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+      >
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      
 
-  <body>
-    <ul>
-      <% for (const user of users) { %>
-      <li><%- user.name %></li>
-      <%}%>
-    </ul>
-    <h2>Site de corno</h2>
-  </body>
-</html>
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav mr-auto">
+          </ul>
+      </div>
+      <div class="my-2 my-lg-0">
+          <a href="./register"><button class="btn btn-light">Sign Up</button></a>
+          <a href="./login" class="btn btn-link">Login</a>
+      </div>
+  </nav>
+
+  <ul class="list-group mt-5">
+    <% posts.forEach( row => { %>
+      <li class="list-group-item card">
+        <div class="card-body" >
+          <div class="card-title">
+            <div class="row"><h5 class="col-9"><%= row.title %></h5><p class="col-3"><span>by </span><%= row.author %></p></div>
+          </div>
+          <div class="card-text" style="max-height: 120px; overflow: hidden;"><span"><%= row.content %></span></div>
+          
+        </div>
+        <div class="card-body">
+          <div class="row card-text">
+         
+          <div class="col-2">
+            <a href="#" class="btn btn-primary">Read</a>
+          </div>
+          <div class="col-8"></div>
+          <p class="col-2"><%= `${row.created_at.getDate()}/${row.created_at.getMonth() + 1}/${row.created_at.getFullYear()}` %></p>
+          </div>
+        </div>
+
+      </li>
+  <% }); %>
+  </ul>
