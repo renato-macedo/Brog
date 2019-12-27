@@ -1,10 +1,15 @@
 const AuthController = {
-  login(req, res) {
+  loginPage(req, res) {
     res.render('login', {
       title: 'Login'
     });
   },
-  register(req, res) {
+  loginSubmit(req, res) {
+    //req.session.user = user
+    console.log(req.body);
+    res.render('index', { title: 'kk' });
+  },
+  registerPage(req, res) {
     res.render('register', {
       title: 'Sign Up'
     });

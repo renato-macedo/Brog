@@ -9,6 +9,19 @@ const PostController = {
         res.render('index', { title: 'Blog', posts: results });
       }
     });
+  },
+
+  getPost(req, res) {
+    const { user, id } = req.params;
+
+    Post.findPost(user, id, (err, results) => {
+      if (err) {
+        console.log({ err });
+        res.status(500).send('server error');
+      } else {
+        res.render('post', { title: results[0].title, post: results[0] });
+      }
+    });
   }
 };
 

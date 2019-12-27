@@ -4,9 +4,9 @@ const Post = {
   getAll(callback) {
     connection.query(`SELECT * FROM Posts ORDER BY created_at DESC`, callback);
   },
-  findByAuthor(username, callback) {
+  findPost(username, postID, callback) {
     connection.query(
-      `SELECT * FROM Posts where author ='${username}'`,
+      `SELECT * FROM Posts where author ='${username}' and post_id = ${postID}`,
       callback
     );
   },

@@ -23,7 +23,7 @@ function connect() {
     database: 'blog'
   });
   const d = new Date();
-  console.log('passei aqui', d.getSeconds());
+  // console.log('passei aqui', d.getSeconds());
   return connection;
 }
 module.exports = connect();
