@@ -6,7 +6,11 @@ const PostController = {
         console.log({ err });
         res.status(500).send('server error');
       } else {
-        res.render('index', { title: 'Blog', posts: results });
+        res.render('index', {
+          title: 'Blog',
+          posts: results,
+          user: req.session.user
+        });
       }
     });
   },
@@ -19,7 +23,11 @@ const PostController = {
         console.log({ err });
         res.status(500).send('server error');
       } else {
-        res.render('post', { title: results[0].title, post: results[0] });
+        res.render('post', {
+          title: results[0].title,
+          post: results[0],
+          user: req.session.user
+        });
       }
     });
   }
