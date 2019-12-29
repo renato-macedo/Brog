@@ -93,6 +93,11 @@ const UserController = {
     // return res.render('register', {
     //   error: 'Please, fill all fields'
     // });
+  },
+
+  logout(req, res) {
+    req.session.user = null;
+    return res.redirect('/');
   }
 };
 

@@ -26,12 +26,14 @@ router.post('/register/submit', UserController.registerSubmit);
 //router.get('/posts', PostController.index);
 router.get('/:user/:id', PostController.getPost);
 
-router.all('*', (req, res) => {
-  res.status(404).send('Not Found');
-});
-
 router.get('/html', (req, res) => {
   res.sendFile(__dirname + '/index.html');
+});
+
+router.get('/logout', UserController.logout);
+
+router.all('*', (req, res) => {
+  res.status(404).send('Not Found');
 });
 
 module.exports = router;

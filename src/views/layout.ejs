@@ -35,6 +35,7 @@
       <div class="my-2 my-lg-0">
           <% if (typeof user != 'undefined' && user) { %>
             <div class="text-white">Welcome <%= user.name %></div>
+            <a href="/logout" class="btn btn-link">Log Out</a>
          <% } else { %>
             <a href="/register"><button class="btn btn-light">Sign Up</button></a>
             <a href="/login" class="btn btn-link">Login</a>
