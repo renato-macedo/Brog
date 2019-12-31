@@ -30,6 +30,38 @@ const PostController = {
         });
       }
     });
+  },
+  addPostView(req, res) {
+    if (req.session.user) {
+      console.log(req.session.user);
+      res.render('newpost', {
+        title: 'New Post'
+      });
+    } else {
+      res.redirect('/login');
+    }
+  },
+  store(req, res) {
+    const {
+      body: { title, content },
+      session: { user }
+    } = req;
+    Post.add(
+      {
+        title,
+        content,
+        author: user.username,
+        created_at: Date.now().toString()
+      },
+      (err, results) => {
+        if (err) {
+          console.log(err);
+          res.status(500).json({ msg: 'server error' });
+        } else {
+          res.redirect('/');
+        }
+      }
+    );
   }
 };
 

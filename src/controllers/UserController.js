@@ -8,7 +8,8 @@ const UserController = {
         if (results && results.length > 0) {
           const user = results[0];
           if (user.password === password) {
-            req.session.user = user;
+            const { user_id: id, username, email } = user;
+            req.session.user = { id, username, email };
             res.redirect('/');
           } else {
             return res.render('login', {

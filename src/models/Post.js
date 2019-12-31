@@ -1,4 +1,5 @@
 const connection = require('../database');
+
 // models são interfaces para o banco de dados
 const Post = {
   getAll(callback) {
@@ -10,11 +11,17 @@ const Post = {
       callback
     );
   },
-  insert({ title, content, author, created_at }) {
+  add({ title, content, author }, callback) {
+    [title, content, author] = escape([title, content, author]);
     connection.query(
-      `INSERT INTO Posts (title, content, author, created_at) values (${title}, ${content}, ${author}, ${created_at} )`
+      `INSERT INTO Posts (title, content, author, created_at) values (${title}, ${content}, ${author}, NOW() )`,
+      callback
     );
   }
 };
+
+function escape(values) {
+  return values.map(value => connection.escape(value));
+}
 
 module.exports = Post;
