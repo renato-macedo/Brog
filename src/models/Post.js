@@ -11,10 +11,15 @@ const Post = {
       callback
     );
   },
-  add({ title, content, author }, callback) {
-    [title, content, author] = escape([title, content, author]);
+  add({ title, description, content, author }, callback) {
+    [title, description, content, author] = escape([
+      title,
+      description,
+      content,
+      author
+    ]);
     connection.query(
-      `INSERT INTO Posts (title, content, author, created_at) values (${title}, ${content}, ${author}, NOW() )`,
+      `INSERT INTO Posts (title, description, content, author, created_at) values (${title}, ${description}, ${content}, ${author}, NOW() )`,
       callback
     );
   }

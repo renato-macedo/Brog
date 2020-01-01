@@ -31,7 +31,7 @@ const PostController = {
       }
     });
   },
-  addPostView(req, res) {
+  addPostPage(req, res) {
     if (req.session.user) {
       console.log(req.session.user);
       res.render('newpost', {
@@ -42,26 +42,31 @@ const PostController = {
     }
   },
   store(req, res) {
-    const {
-      body: { title, content },
-      session: { user }
-    } = req;
-    Post.add(
-      {
-        title,
-        content,
-        author: user.username,
-        created_at: Date.now().toString()
-      },
-      (err, results) => {
-        if (err) {
-          console.log(err);
-          res.status(500).json({ msg: 'server error' });
-        } else {
-          res.redirect('/');
+    const { user } = req.session;
+    if (user) {
+      const {
+        body: { title, content, description }
+      } = req;
+      console.log({ description });
+      Post.add(
+        {
+          title,
+          content,
+          description,
+          author: user.username
+        },
+        (err, results) => {
+          if (err) {
+            console.log(err);
+            res.status(500).json({ msg: 'server error' });
+          } else {
+            res.redirect('/');
+          }
         }
-      }
-    );
+      );
+    } else {
+      res.redirect('/login');
+    }
   }
 };
 

@@ -1,26 +1,21 @@
 <%- contentFor('body') %>
-  <ul class="list-group mt-5">
+  <ul class="list-group mt-3">
     <% posts.forEach( row => { %>
-      <li class="list-group-item card">
-        <div class="card-body" >
-          <h1></h1>
-          <div class="card-title">
-            <div class="row"><h5 class="col-9"><%= row.title %></h5><p class="col-3"><span>by </span><%= row.author %></p></div>
+      <li class="card mb-4">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-6 col-lg-10"><%= row.author %></div>
+            <div class="col-6 col-lg-2 text-right"><%= `${row.created_at.getDate()}/${row.created_at.getMonth() + 1}/${row.created_at.getFullYear()}` %></div>
           </div>
-          <div class="card-text" style="max-height: 120px; overflow: hidden;"><span"><%= row.content %></span></div>
-          
         </div>
         <div class="card-body">
-          <div class="row card-text">
-        
-          <div class="col-2">
-            <a href='<%= ` ${row.author}/${row.post_id}` %>' class="btn bg-dark text-white">Read</a>
-          </div>
-          <div class="col-8"></div>
-          <p class="col-2"><%= `${row.created_at.getDate()}/${row.created_at.getMonth() + 1}/${row.created_at.getFullYear()}` %></p>
-          </div>
+          <h5 class="card-title"><%= row.title %></h5>
+          <p class="card-text"><%= row.description %></p>
+          <a href='<%= ` ${row.author}/${row.post_id}` %>' class="btn bg-dark text-white">Read</a>
         </div>
 
       </li>
   <% }); %>
   </ul>
+
+  

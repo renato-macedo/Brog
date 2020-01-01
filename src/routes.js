@@ -27,11 +27,7 @@ router.post('/register/submit', UserController.registerSubmit);
 router.get('/:user/:id', PostController.getPost);
 
 router.post('/newpost/submit', PostController.store);
-router.get('/newpost', PostController.addPostView);
-router.get('/html', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
+router.get('/newpost', PostController.addPostPage);
 router.get('/logout', UserController.logout);
 
 router.all('*', (req, res) => {

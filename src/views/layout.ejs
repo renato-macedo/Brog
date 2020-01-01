@@ -13,37 +13,30 @@
     <title><%= title %></title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="/">Blog</a>
-      <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarsExampleDefault"
-          aria-controls="navbarsExampleDefault"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-      >
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-          <ul class="navbar-nav mr-auto">
-          </ul>
-      </div>
+    <a class="navbar-brand col-3 col-lg-10" href="/">Blog</a>
+    <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="my-2 my-lg-0">
-          <% if (typeof user != 'undefined' && user) { %>
-            <div class="text-white">Welcome <%= user.name %></div>
+        <% if (typeof user != 'undefined' && user) { %>
+          <div class="row">
+            <div class="text-white btn" style="cursor: auto;">Welcome <%= user.name %></div>
             <a href="/logout" class="btn btn-link">Log Out</a>
-         <% } else { %>
-            <a href="/register"><button class="btn btn-light">Sign Up</button></a>
-            <a href="/login" class="btn btn-link">Login</a>
-          <% } %>
-          
-      </div>
+          </div>
+       <% } else { %>
+        
+          <a class="text-right" href="/register"><button class="btn btn-link">Sign Up</button></a>
+          <a class="text-right" href="/login" class="btn btn-link">Login</a>
+
+        <% } %>
+        
+    </div>
+    </div>
   </nav>
-    <div class="container mt-5 p-4">
+    <div class="container ">
 
       <%- body %>
     </div>
