@@ -1,35 +1,27 @@
 const Post = require('../models/Post');
+
 const PostController = {
-  index(req, res) {
-    Post.getAll((err, results) => {
-      if (err) {
-        console.log({ err });
-        res.status(500).send('server error');
-      } else {
-        res.render('index', {
-          title: 'Blog',
-          posts: results,
-          user: req.session.user
-        });
-      }
+  async index(req, res) {
+    const results = await Post.getAll();
+    return res.render('index', {
+      title: 'Blog',
+      posts: results,
+      user: req.session.user
     });
   },
 
-  getPost(req, res) {
+  async getPost(req, res) {
     const { user, id } = req.params;
-
-    Post.findPost(user, id, (err, results) => {
-      if (err) {
-        console.log({ err });
-        res.status(500).send('server error');
-      } else {
-        res.render('post', {
-          title: results[0].title,
-          post: results[0],
-          user: req.session.user
-        });
-      }
-    });
+    try {
+      const results = await Post.findPost(user, id);
+      return res.render('post', {
+        title: results[0].title,
+        post: results[0],
+        user: req.session.user
+      });
+    } catch (error) {
+      res.send('server error:' + error.message);
+    }
   },
   addPostPage(req, res) {
     if (req.session.user) {
@@ -41,29 +33,24 @@ const PostController = {
       res.redirect('/login');
     }
   },
-  store(req, res) {
+  async store(req, res) {
     const { user } = req.session;
     if (user) {
       const {
         body: { title, content, description }
       } = req;
       console.log({ description });
-      Post.add(
-        {
-          title,
-          content,
-          description,
-          author: user.username
-        },
-        (err, results) => {
-          if (err) {
-            console.log(err);
-            res.status(500).json({ msg: 'server error' });
-          } else {
-            res.redirect('/');
-          }
-        }
-      );
+      const success = await Post.insert({
+        title,
+        content,
+        description,
+        author: user.username
+      });
+      if (success) {
+        return res.redirect('/');
+      }
+
+      return res.send('server error');
     } else {
       res.redirect('/login');
     }

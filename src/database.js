@@ -1,29 +1,14 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
-// let connection;
-// function connect() {
-//   if (connection) {
-//     return connection;
-//   }
-
-//   connection = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     database: 'blog'
-//   });
-
-//   return connection;
-// }
-// module.exports = connect();
-
-function connect() {
-  const connection = mysql.createConnection({
+async function connect() {
+  const connection = await mysql.createConnection({
     host: 'localhost',
     user: 'root',
     database: 'blog'
   });
-  const d = new Date();
-  // console.log('passei aqui', d.getSeconds());
+  //const d = new Date();
+  console.log('passei aqui');
   return connection;
 }
-module.exports = connect();
+
+module.exports = connect;
