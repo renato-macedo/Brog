@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* html {
+ 
+} */
+body {
+  margin: 0 auto;
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+
+}
+.container {
+  width: 100%;
+  padding-right: 25%;
+  padding-left: 25%;
+  margin: 0 auto;
+
+}
+h1 {
+  margin-top: 1%;
+}
+.card {
+margin: 3% 0%;
+color: black;
+
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.card h2 {
+  text-align: left;
+}
+.card-footer {
+  padding-top: 1%;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+
+}
+
+
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0%;
+  }
+}

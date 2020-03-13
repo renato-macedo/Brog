@@ -1,6 +1,5 @@
 const express = require('express');
 const ejsLayouts = require('express-ejs-layouts');
-//const connection = require('./database');
 const routes = require('./routes');
 const session = require('express-session');
 const path = require('path');
@@ -14,7 +13,7 @@ app.use(
     saveUninitialized: true
   })
 );
-app.use(express.static('public'));
+app.use(express.static(path.resolve(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.use(ejsLayouts);
 app.set('views', path.resolve(__dirname, 'views'));

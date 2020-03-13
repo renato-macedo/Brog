@@ -1,7 +1,5 @@
 const connect = require('../database');
 
-// models são interfaces para o banco de dados
-
 function createPostModel() {
   let connection;
   function setConnection() {
