@@ -25,7 +25,6 @@ const PostController = {
   },
   addPostPage(req, res) {
     if (req.session.user) {
-      console.log(req.session.user);
       res.render('newpost', {
         title: 'New Post'
       });
@@ -39,7 +38,7 @@ const PostController = {
       const {
         body: { title, content, description }
       } = req;
-      console.log({ description });
+
       const success = await Post.insert({
         title,
         content,

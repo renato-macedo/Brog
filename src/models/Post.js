@@ -15,7 +15,6 @@ function createPostModel() {
       return rows;
     },
     async findPost(username, postID) {
-      console.log(username, postID);
       const [
         results
       ] = await connection.query(
@@ -33,7 +32,6 @@ function createPostModel() {
         );
         return true;
       } catch (error) {
-        console.log(error.message);
         return false;
       }
     }

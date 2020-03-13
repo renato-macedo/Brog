@@ -1,38 +1,34 @@
 const User = require('../models/User');
 const UserController = {
-  loginSubmit(req, res) {
-    //req.session.user = user
+  async loginSubmit(req, res) {
     const { email, password } = req.body;
+
     if (email && password) {
-      User.findByEmail(email, (err, results) => {
-        if (results && results.length > 0) {
-          const user = results[0];
-          if (user.password === password) {
-            const { user_id: id, username, name, email } = user;
-            req.session.user = { id, name, username, email };
-            res.redirect('/');
-          } else {
-            return res.render('login', {
-              title: 'Welcome',
-              errors: ['wrong password']
-            });
-          }
-        } else {
-          res.render('login', {
-            title: 'Welcome',
-            errors: ['could not find user']
-          });
+      const user = await User.findByEmail(email);
+
+      if (user) {
+        if (user.password === password) {
+          const { user_id: id, username, name, email } = user;
+          req.session.user = { id, name, username, email };
+          return res.redirect('/');
         }
-      });
-    } else {
-      res.render('login', {
+        return res.render('login', {
+          title: 'Welcome',
+          errors: ['wrong password']
+        });
+      }
+      return res.render('login', {
         title: 'Welcome',
-        errors: ['fill all fields']
+        errors: ['could not find user']
       });
     }
+    return res.render('login', {
+      title: 'Welcome',
+      errors: ['fill all fields']
+    });
   },
 
-  registerSubmit(req, res) {
+  async registerSubmit(req, res) {
     const title = 'Sign Up Now';
     const { name, username, email, password, password2 } = req.body;
     const errors = [];
@@ -55,45 +51,23 @@ const UserController = {
       });
     }
 
-    User.findByEmail(email, (err, results) => {
-      if (results && results.length > 0) {
-        res.render('register', {
+    try {
+      const [exists, message] = await User.checkIfExists(email, username);
+      if (exists) {
+        return res.render('register', {
           title,
-          errors: ['A user with this email already exists']
-        });
-      } else {
-        User.findByUsername(username, (err, results) => {
-          if (err) {
-            console.log(err);
-          }
-          console.log('aaa', results);
-          if (results && results.length > 0) {
-            res.render('register', {
-              title,
-              errors: ['this is username is already taken']
-            });
-          } else {
-            User.store({ name, username, email, password }, (err, results) => {
-              if (err) {
-                console.log(err);
-                res.render('register', {
-                  title,
-                  errors: ['something is wrong']
-                });
-              } else {
-                console.log({ results });
-                req.session.user = { name, username, email, password };
-                res.redirect('/');
-              }
-            });
-          }
+          errors: [message]
         });
       }
-    });
-
-    // return res.render('register', {
-    //   error: 'Please, fill all fields'
-    // });
+      await User.store({ name, username, email, password });
+      req.session.user = { name, username, email, password };
+      return res.redirect('/');
+    } catch (e) {
+      return res.render('register', {
+        title,
+        errors: ['something is wrong']
+      });
+    }
   },
 
   logout(req, res) {
