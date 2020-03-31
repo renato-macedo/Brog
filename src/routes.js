@@ -26,8 +26,8 @@ router.post('/register/submit', UserController.registerSubmit);
 //router.get('/posts', PostController.index);
 router.get('/:user/:id', PostController.getPost);
 
-router.post('/newpost/submit', PostController.store);
-router.get('/newpost', PostController.addPostPage);
+router.post('/new', PostController.store);
+router.get('/new', PostController.addPostPage);
 router.get('/logout', UserController.logout);
 
 router.all('*', (req, res) => {

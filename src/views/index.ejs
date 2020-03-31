@@ -1,21 +1,20 @@
 <%- contentFor('body') %>
 
-  <main role="main" class="container">
-    <h1>Brog</h1>
-      <% posts.forEach( row => { %>
-        <div class="card">
-          <div class="card-body">
-            <a href='<%= ` ${row.author}/${row.post_id}` %>'><h2 class="card-title"><%= row.title %></h2></a>
-            <p class="card-text"><%= row.description %></p>
-          </div>
-          <div class="card-footer">
-            <p>published: <strong><%= `${row.created_at.getDate() < 10 ? ('0' + row.created_at.getDate()) : row.created_at.getDate() }/${row.created_at.getMonth() + 1 < 10 ? '0' + (row.created_at.getMonth() + 1) : row.created_at.getMonth() + 1 }/${row.created_at.getFullYear()}` %></strong></p>
-          </div>
-        </div>
-    <% }); %>
-  </main>
-   
-  
-
- 
-
+<main role="main" class="container">
+  <h1>Brog</h1>
+  <% posts.forEach( row => { %>
+  <div class="card">
+    <div class="card-body">
+      <a href='<%= ` ${row.author}/${row.id}` %>'>
+        <h2 class="card-title"><%= row.title %></h2>
+      </a>
+      <p class="card-text"><%= row.description %></p>
+    </div>
+    <div class="card-footer">
+      <p>published:
+        <strong><%= `${row.created_at.getDate() < 10 ? ('0' + row.created_at.getDate()) : row.created_at.getDate() }/${row.created_at.getMonth() + 1 < 10 ? '0' + (row.created_at.getMonth() + 1) : row.created_at.getMonth() + 1 }/${row.created_at.getFullYear()}` %></strong>
+      </p>
+    </div>
+  </div>
+  <% }); %>
+</main>

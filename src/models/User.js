@@ -1,31 +1,26 @@
-const connect = require('../database');
-let connection;
-function setConnection() {
-  connect().then(c => (connection = c));
-}
-setConnection();
+const connection = require('../database/connection');
 
 const User = {
   async findByEmail(email) {
-    const results = await connection.query(
-      `SELECT * FROM USERS where email = ?`,
-      [email]
-    );
+    const [user] = await connection('users')
+      .where('email', email)
+      .select('*');
 
-    if (results && results.length > 0) {
-      return results[0][0];
+    if (user) {
+      return user;
     }
-
     return null;
   },
+
   async checkIfExists(email, username) {
-    const results = await connection.query(
-      `SELECT * FROM USERS where email = ? or username = ?`,
-      [email, username]
-    );
-    console.log(JSON.stringify(results[0], null, 2));
-    if (results) {
-      user = results[0][0];
+    const results = await connection('users')
+      .where('email', email)
+      .orWhere('username', username)
+      .select('*');
+
+    const [user] = results;
+
+    if (user) {
       if (user.email == email) {
         return [true, 'A user with this email already exists'];
       }
@@ -34,26 +29,28 @@ const User = {
         return [true, 'this is username is already taken'];
       }
     }
-
     return [false, null];
   },
-  async findByUsername(username) {
-    const results = await connection.query(
-      `SELECT * FROM USERS where username = ?`,
-      [username]
-    );
-    if (results && results.length > 0) {
-      return results[0][0];
-    }
 
-    return null;
+  async store({ name, username, email, password }) {
+    const [user] = await connection('users').insert({
+      name,
+      email,
+      username,
+      password
+    });
+    console.log(user);
   },
-  async store({ name, email, username, password }) {
-    const result = await connection.query(
-      `INSERT INTO USERS  (name, email, username, password) values (?, ?, ?, ?)`,
-      [name, email, username, password]
-    );
-    console.log(result);
+
+  async findByUsername(username) {
+    const [user] = await connection('users')
+      .where('username', username)
+      .select('*');
+
+    if (user) {
+      return user;
+    }
+    return null;
   }
 };
 

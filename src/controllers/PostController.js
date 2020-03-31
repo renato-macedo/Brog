@@ -13,10 +13,10 @@ const PostController = {
   async getPost(req, res) {
     const { user, id } = req.params;
     try {
-      const results = await Post.findPost(user, id);
+      const post = await Post.findPost(user, id);
       return res.render('post', {
-        title: results[0].title,
-        post: results[0],
+        title: post.title,
+        post: post,
         user: req.session.user
       });
     } catch (error) {

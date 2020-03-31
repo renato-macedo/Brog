@@ -1,44 +1,36 @@
-const connect = require('../database');
+const connection = require('../database/connection');
 
-function createPostModel() {
-  let connection;
-  function setConnection() {
-    connect().then(c => (connection = c));
-  }
-  setConnection();
+const Post = {
+  async getAll() {
+    const posts = await connection('posts')
+      .orderBy('created_at', 'desc')
+      .select('*');
 
-  const Post = {
-    async getAll() {
-      const [rows] = await connection.query(
-        `SELECT * FROM Posts ORDER BY created_at DESC`
-      );
-      return rows;
-    },
-    async findPost(username, postID) {
-      const [
-        results
-      ] = await connection.query(
-        `SELECT * FROM Posts where author = ? and post_id = ?  `,
-        [username, postID]
-      );
+    return posts;
+  },
 
-      return results;
-    },
-    async insert({ title, description, content, author }) {
-      try {
-        await connection.query(
-          `INSERT INTO Posts (title, description, content, author, created_at) values (?, ?, ?, ?, NOW() )`,
-          [title, description, content, author]
-        );
-        return true;
-      } catch (error) {
-        return false;
-      }
+  async findPost(username, postID) {
+    const [post] = await connection('posts')
+      .where('author', username)
+      .where('id', postID)
+      .select('*');
+    console.log(post);
+    return post;
+  },
+
+  async insert({ title, description, content, author }) {
+    const [id] = await connection('posts').insert({
+      title,
+      description,
+      content,
+      author
+    });
+    if (id) {
+      return true;
     }
-  };
-  return Post;
-}
 
-module.exports = createPostModel();
+    return false;
+  }
+};
 
-//module.exports = new Post();
+module.exports = Post;

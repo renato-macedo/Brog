@@ -63,6 +63,7 @@ const UserController = {
       req.session.user = { name, username, email, password };
       return res.redirect('/');
     } catch (e) {
+      console.log(e);
       return res.render('register', {
         title,
         errors: ['something is wrong']

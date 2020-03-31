@@ -22,5 +22,5 @@ app.use(routes);
 const port = process.env.PORT || 3000;
 
 app.listen(port, () =>
-  console.log(`server running on port http:127.0.0.1:${port}`)
+  console.log(`server running on port http://127.0.0.1:${port}`)
 );
